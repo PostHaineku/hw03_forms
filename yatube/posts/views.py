@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group
 from django.core.paginator import Paginator
 from .forms import PostForm
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -22,9 +23,11 @@ def group_posts(request, slug):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     title = group.title
+    description = group.description
     context = {
         'page_obj': page_obj,
-        'title': title
+        'title': title,
+        'description': description
     }
 
     return render(request, "posts/group_list.html", context)
@@ -58,6 +61,7 @@ def post_detail(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
+@login_required
 def post_create(request):
     if request.method == "POST":
         form = PostForm(request.POST or None)
@@ -65,7 +69,8 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect("posts:profile", request.user.username)
+            author = request.user.username
+            return redirect("posts:profile", author)
         groups = Group.objects.all()
         context = {
             'form': form,
@@ -81,6 +86,7 @@ def post_create(request):
     return render(request, 'posts/create_post.html', context)
 
 
+@login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if post.author == request.user:
