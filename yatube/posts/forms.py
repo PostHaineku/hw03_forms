@@ -1,5 +1,5 @@
 from django import forms
-from .models import New_post
+from .models import Post
 from .models import Group
 
 
@@ -11,5 +11,5 @@ class PostForm(forms.ModelForm):
                                    help_text='Выберите группу')
 
     class Meta:
-        model = New_post
+        model = Post
         fields = ('text', 'group')

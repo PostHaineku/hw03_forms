@@ -30,8 +30,3 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-pub_date"]
-
-
-class New_post(models.Model):
-    group = models.CharField(max_length=40, null=True, blank=True)
-    text = models.TextField(null=False, blank=False)
