@@ -3,6 +3,9 @@ from .models import Post, Group
 from django.core.paginator import Paginator
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def index(request):
@@ -32,11 +35,11 @@ def group_posts(request, slug):
 
     return render(request, "posts/group_list.html", context)
 
-
+@login_required
 def profile(request, username):
     posts_profile = (Post.objects.select_related('author')
                      .filter(author__username=username))
-    author = username
+    author = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
     paginator = Paginator(posts_profile, 10)
     page_number = request.GET.get('page')
