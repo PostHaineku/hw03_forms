@@ -3,7 +3,7 @@ from .models import New_post
 from .models import Group
 
 
-class New_post_form(forms.ModelForm):
+class PostForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea)
     group = forms.ModelChoiceField(queryset=Group.objects.all(),
                                    required=False,
