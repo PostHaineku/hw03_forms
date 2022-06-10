@@ -35,7 +35,7 @@ def group_posts(request, slug):
 
     return render(request, "posts/group_list.html", context)
 
-@login_required
+
 def profile(request, username):
     posts_profile = (Post.objects.select_related('author')
                      .filter(author__username=username))
