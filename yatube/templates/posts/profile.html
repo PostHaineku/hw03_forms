@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 <title>
-  {% block title %}Профиль пользователя{% endblock %}
+  {% block title %}Профайл пользователя {{ username }}{% endblock %}
 </title>
 {% block content %}
 <div class="container py-5">        
-  <h1>Все посты пользователя {{ post.author.get_full_name }} </h1>
+  <h1>Все посты пользователя {{ author }} </h1>
   <h3>Всего постов: {{ posts_cnt }} </h3>
   {% for post in page_obj %}  
   <article>
@@ -21,7 +21,7 @@
     <p>
       {{ post.text }}
     </p>
-    <a href="<!-- -->">подробная информация </a>
+    <a href="{% url "posts:post_detail" post.id %}">подробная информация </a>
   </article>
   {% endfor %}
   {% if post.group %}

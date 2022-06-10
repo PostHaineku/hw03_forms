@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 <title>
-  {% block title %}{{ group.title }}{% endblock %}
+  {% block title %}{{ title }}{% endblock %}
 </title>
-{% block content %}
+{% block content %}  
+<h1>{{ title }}</h1>
 {% for post in page_obj %}
-<p>
-  {{ group.title }}
-</p>
+
 <article>
   <ul>
     <li>

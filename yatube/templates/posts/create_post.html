@@ -13,14 +13,13 @@
         </div>
         <div class="card-body">
           {% if is_edit %}
-          <form method="post" action="{% url 'posts:post_edit' %}">
+          <form method="post" action="{% url 'posts:post_edit' id %}">
             {% csrf_token %}
             <div class="form-group row my-3 p-3">
               <label for="id_text">
                 Текст поста                  
                 <span class="required text-danger" >*</span>                  
               </label>
-              <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">
               {{ form.text }}
               </textarea>                
               <small id="id_text-help" class="form-text text-muted">

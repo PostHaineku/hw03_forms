@@ -21,8 +21,10 @@ def group_posts(request, slug):
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    title = group.title
     context = {
         'page_obj': page_obj,
+        'title': title
     }
 
     return render(request, "posts/group_list.html", context)
@@ -31,16 +33,18 @@ def group_posts(request, slug):
 def profile(request, username):
     posts_profile = (Post.objects.select_related('author')
                      .filter(author__username=username))
+    author = username
     template = 'posts/profile.html'
     paginator = Paginator(posts_profile, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     posts_cnt = Post.objects.filter(author__username=username).count()
     context = {
-        'title': f'Профайл пользователя {username}',
+        'username': username,
         'page_obj': page_obj,
         'posts_profile': posts_profile,
-        'posts_cnt': posts_cnt
+        'posts_cnt': posts_cnt,
+        'author': author
     }
     return render(request, template, context)
 
@@ -60,7 +64,7 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            form.save()
+            post.save()
             return redirect("posts:profile", request.user.username)
         groups = Group.objects.all()
         context = {
@@ -85,7 +89,8 @@ def post_edit(request, post_id):
             is_edit = True
             context = {
                 'form': form,
-                'is_edit': is_edit
+                'is_edit': is_edit,
+                'id': post_id,
             }
             if form.is_valid():
                 form.save()
@@ -95,7 +100,8 @@ def post_edit(request, post_id):
         is_edit = True
         context = {
             'form': form,
-            'is_edit': is_edit
+            'is_edit': is_edit,
+            'id': post_id
         }
         return render(request, 'posts/create_post.html', context)
     return redirect('posts:post_detail', post_id=post_id)
