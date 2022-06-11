@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group
-from django.core.paginator import Paginator
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -78,17 +77,17 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
-    is_edit = True 
-    context = {  
-        "form": form, 
-        "is_edit": is_edit, 
-        "id": post_id, 
+    is_edit = True
+    context = {
+        "form": form,
+        "is_edit": is_edit,
+        "id": post_id,
     }
     if post.author != request.user:
         return redirect("posts:post_detail", post_id=post_id)
     if request.method == "POST":
-        if form.is_valid(): 
+        if form.is_valid():
             form.save()
             return redirect("posts:post_detail", post_id=post_id)
-        return render(request, "posts/create_post.html", context) 
+        return render(request, "posts/create_post.html", context)
     return render(request, "posts/create_post.html", context)
