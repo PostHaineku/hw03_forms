@@ -48,7 +48,7 @@
                   {% endif %}
               </label>
               <div>
-              {{ field|addclass:'form-control' }}
+              {{ field|addclass:"form-control" }}
                 {% if field.help_text %}
                   <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
                     {{ field.help_text|safe }}
@@ -61,7 +61,7 @@
             <button type="submit" class="btn btn-primary">
               Войти
             </button>
-            <a href="{% url 'users:password_reset' %}" class="btn btn-link">
+            <a href="{% url "users:password_reset" %}" class="btn btn-link">
               Забыли пароль?
             </a>
           </div>
