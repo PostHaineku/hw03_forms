@@ -19,7 +19,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    post_list = group.posts.all().order_by("-pub_date")
+    post_list = group.posts.all()
     page_obj = paginate_page(request, post_list)
     title = group.title
     description = group.description
